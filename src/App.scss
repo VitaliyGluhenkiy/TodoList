@@ -2,17 +2,66 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  outline: none
+  outline: none;
+  font-family: 'Roboto', -apple-system, system-ui , sans-serif;
+  //box-sizing: border-box;
+
 }
 
 body {
-  font-family: -apple-system, system-ui , sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 .todo{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 750px;
+  height: 530px;
+  transform: translate(-50%, -50%);
+  box-shadow: 1px 1px 20px #dada;
+  border-radius: 10px;
+  border: 1px solid #d0d0d0;
+  font-size: 14px;
   &__sidebar {
     background-color: #E5E5E5;
+    width: 200px;
+    height: calc(100% - 120px);
+    border-right: 1px solid #d0d0d0;
+    padding: 60px 30px;
+
+  }
+
+}
+.list__icon-plus{
+  path {
+    stroke: #7c7c7c;
+  }
+}
+
+.field {
+  background-color: #fff;
+  border: 1px solid #efefef;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 8px 12px;
+  &:focus {
+    border-color: #dbdbdb;
+  }
+}
+
+.button {
+  background-color: #4dd599;
+  border-radius: 4px;
+  color: #ffffff;
+  border: 0px;
+  padding: 10px 20px;
+  cursor: pointer;
+  &:hover {
+    background-color: darken(#4dd599 , 10%);
+  }
+  &:active {
+    background-color: darken(#4dd599 , 15%);
   }
 }
