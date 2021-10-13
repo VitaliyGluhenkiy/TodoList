@@ -1,29 +1,58 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import './App.scss'
 import List from "./components/List/List";
 import AddButtonList from "./components/AddButtonList/AddButtonList";
 
-import DB from './assets/db.json'
 import Tasks from "./components/Tasks/Tasks";
+import * as axios from 'axios';
 
 function App() {
 
-    const [lists, setLists] = useState(
-        DB.lists.map(item => {
-            item.color = DB.colors.filter(color => color.id === item.colorId)[0].name
-            return item
-    }))
+    const [lists, setLists] = useState(null)
+    const [colors, setColors] = useState(null)
 
+    // console.log(lists)
 
     const onAddList = obj => {
         const newList = [...lists, obj]
         setLists(newList)
     }
 
+    // const onAddTask = obj => {
+    //     const newTask = [...lists[0].tasks , obj]
+    //     setLists(newTask)
+    // }
 
-    const onRemove = () => {
-        alert('123')
+
+    const removeListItem = (id) => {
+        axios.delete(`http://localhost:3001/lists/${id}`).then(({data}) => {
+            const newList = lists.filter((item) => item.id !== id )
+            setLists(newList)
+        } )
     }
+
+
+    const removeTaskItem = (id) => {
+        axios.delete(`http://localhost:3001/tasks/${id}`).then(({data}) => {
+            const newList = lists.filter((item) => item.id !== id)
+            setLists(newList)
+        })
+    }
+
+
+
+    useEffect(() => {
+        axios.get('http://localhost:3001/lists?_expand=color&_embed=tasks').then(({data}) => {
+            setLists(data)
+        });
+        axios.get('http://localhost:3001/colors').then(({data}) => {
+            setColors(data)
+        })
+    },[])
+
+
+
+
 
 
     return (
@@ -45,14 +74,12 @@ function App() {
                 <List
                     items={lists}
                     isRemovable
-                    onRemove={(item) => {
-                        console.log(item)
-                    }}
+                    removeListItem={removeListItem}
                 />
-                <AddButtonList  onAdd={onAddList} colors={DB.colors}/>
+                <AddButtonList  onAdd={onAddList} colors={colors}/>
             </div>
             <div className="todo__tasks">
-                <Tasks/>
+                { lists && <Tasks lists={lists[0]} removeTaskItem={removeTaskItem}/>}
             </div>
         </div>
     );

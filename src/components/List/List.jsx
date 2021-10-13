@@ -1,36 +1,43 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import classNames from 'classnames'
 
 import './List.scss'
 import Badge from "../Badge/Badge";
-import revomeIcon from './../../assets/img/remove.svg'
-const List = ({items , onClick , isRemovable , onRemove}) => {
+import removeIcon from './../../assets/img/remove.svg'
 
 
-    const removeItem = (item) => {
-        if(window.confirm('Вы пжпжыфпф')){
-            onRemove(item)
+
+const List = ({items , onClick , isRemovable , removeListItem}) => {
+
+    // debugger
+
+    const [mapingItems, setMapingItems] = useState(false)
+
+    useEffect(() => {
+        if(Array.isArray(items)){
+            setMapingItems(items)
         }
-    }
+    },[items])
+
+
 
     return (
         <ul onClick={onClick} className="list">
-            {
-                items.map((item , index) => (
+            {mapingItems &&
+                items.map((item , id) => (
                     <li
-                        key={index}
+                        key={id}
                         className={ classNames(item.className , {active: item.active})}
                     >
                         <i>
-                            {item.icon ? item.icon : <Badge color={item.color}/>}
+                            {item.icon ? item.icon : <Badge color={item.color.name}/>}
                         </i>
                         <span>{item.name}</span>
-                        {isRemovable && <img onClick={() => removeItem(item)}  src={revomeIcon} alt="Remove icon" />}
+                        {isRemovable && <img onClick={() => removeListItem(item.id)}  src={removeIcon} alt="Remove icon" />}
                     </li>
                 )
                 )
             }
-
         </ul>
     )
 }

@@ -1,6 +1,18 @@
 .tasks {
   flex: 1;
 
+  &__items {
+    .removeIcon img {
+      opacity: 0;
+      margin-left: 15px ;
+    }
+    &:hover img {
+      opacity: 0.5;
+    }
+  }
+  &:hover {
+    cursor: pointer;
+  }
   &__title {
     margin-top: 60px;
     margin-left: 60px;
