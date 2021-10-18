@@ -10,6 +10,55 @@
       opacity: 0.5;
     }
   }
+  &__form {
+    margin-left: 61px;
+    margin-top: 20px;
+
+    &-new {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      opacity: 0.4;
+      transition: opacity 0.3s ease-in-out;
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+    &-input {
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        //border: #7c7c7c;
+      }
+      .buttons {
+        margin-top: 10px;
+        .cancelButton {
+          border-radius: 4px;
+          border: 0px;
+          padding: 10px 20px;
+          cursor: pointer;
+          margin-left: 10px;
+          &:hover {
+            background-color: #a5a0a0;
+          }
+        }
+        button {
+          &:disabled {
+            background-color: #848080;
+          }
+        }
+      }
+    }
+    span {
+      margin-left: 18px;
+    }
+    img {
+      height: 20px;
+      width: 20px;
+    }
+
+  }
   &:hover {
     cursor: pointer;
   }
@@ -26,6 +75,14 @@
         opacity: 0.2;
       }
     }
+  }
+
+  h2{
+    font-size: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: #7c7c7c;
   }
 
   .penSvg {

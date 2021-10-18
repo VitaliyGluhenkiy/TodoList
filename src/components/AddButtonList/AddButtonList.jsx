@@ -32,9 +32,9 @@ const AddButtonList = ({colors, onAdd}) => {
             return
         }
         setIsLoading(true)
-
         axios.post('http://localhost:3001/lists', {name: inputValue, colorId: selectedColor})
             .then(({data}) => {
+                debugger
                 const color = colors.filter(c => c.id === selectedColor)[0].name
                 const listObj = {...data, color: {name: color}}
                 onAdd(listObj)

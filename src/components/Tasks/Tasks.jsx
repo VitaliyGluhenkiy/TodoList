@@ -3,32 +3,44 @@ import React, {useState} from 'react'
 import './Tasks.scss'
 import penSvg from './../../assets/img/edit.svg'
 import removeIcon from '../../assets/img/remove.svg'
-import * as axios from 'axios';
+import axios from 'axios';
+import AddNewTask from "./AddNewTask";
 
 
 
 
-const Tasks = ({lists , removeTaskItem , onAddTask}) => {
+const Tasks = ({lists , removeTaskItem , onAddTask , onEditTitle }) => {
+
+    // debugger
 
     const [inputValue, setInputValue] = useState('')
 
 
-    console.log(inputValue)
-    // let textTask = React.createRef()
-
     const handleClick = () => {
-        axios.post('http://localhost:3001/tasks' , { listId: 2,  text: inputValue , completed: false})
+        axios.post('http://localhost:3001/tasks/' , { listId: 2,  text: inputValue , completed: false})
             .then(({data}) => {
                 const tasksObj = {...data }
                 onAddTask(tasksObj)
             })
     }
 
+    const editNameTitle = () => {
+        const newTitle = window.prompt('Введите новое название задачи' , lists.name)
+        if(newTitle) {
+            onEditTitle(lists.id , newTitle)
+            axios
+                .patch
+                    ('http://localhost:3001/lists/' + lists.id , {name: newTitle})
+                .catch( () => {
+                    alert('Запрос не удался')
+                })
+        }
+    }
     return (
             <div className='tasks'>
                 <h1 className='tasks__title'>
-                    {lists.name}
-                    <img className="penSvg" src={penSvg} alt="EDIT"/>
+                    {lists.name }
+                    <img onClick={editNameTitle} className="penSvg" src={penSvg} alt="EDIT"/>
 
                 </h1>
                 <div>
@@ -40,6 +52,7 @@ const Tasks = ({lists , removeTaskItem , onAddTask}) => {
                     />
                     <button onClick={handleClick}>Добавить задачу</button>
                 </div>
+                <div>{!lists.tasks.length && <h2>Задачи отсутствуют</h2> }</div>
                     {
                         lists.tasks.map(task => (
                             <div key={task.id} className="tasks__items">
@@ -58,9 +71,12 @@ const Tasks = ({lists , removeTaskItem , onAddTask}) => {
                             </div>
 
                         ))
-                    }
-            </div>
 
+                    }
+                    <AddNewTask lists={lists} onAddTask={onAddTask}/>
+
+
+            </div>
 
     )
 }

@@ -10,19 +10,23 @@ function App() {
 
     const [lists, setLists] = useState(null)
     const [colors, setColors] = useState(null)
+    const [activeItem, setActiveItem] = useState(null)
 
-    // console.log(lists)
 
     const onAddList = obj => {
         const newList = [...lists, obj]
         setLists(newList)
     }
 
-    // const onAddTask = obj => {
-    //     const newTask = [...lists[0].tasks , obj]
-    //     setLists(newTask)
-    // }
-
+    const onAddTask = (listId , taskObj) => {
+        const newList = lists.map(item => {
+            if(item.id === listId) {
+                item.tasks = [...item.tasks, taskObj]
+            }
+            return item
+        })
+        setLists(newList)
+    }
 
     const removeListItem = (id) => {
         axios.delete(`http://localhost:3001/lists/${id}`).then(({data}) => {
@@ -34,8 +38,8 @@ function App() {
 
     const removeTaskItem = (id) => {
         axios.delete(`http://localhost:3001/tasks/${id}`).then(({data}) => {
-            const newList = lists.filter((item) => item.id !== id)
-            setLists(newList)
+            const newTask = lists.filter((item) => item.id !== id)
+            setLists(newTask)
         })
     }
 
@@ -50,9 +54,15 @@ function App() {
         })
     },[])
 
-
-
-
+    const onEditTitle = (id , newTitle) => {
+        const newNameTitle = lists.map(item => {
+            if(item.id === id){
+                item.name = newTitle
+            }
+            return item
+        })
+        setLists(newNameTitle)
+    }
 
 
     return (
@@ -75,11 +85,16 @@ function App() {
                     items={lists}
                     isRemovable
                     removeListItem={removeListItem}
+                    onClickItem = { item => {
+                        setActiveItem(item)
+                    }}
+                    activeItem = {activeItem}
+
                 />
                 <AddButtonList  onAdd={onAddList} colors={colors}/>
             </div>
             <div className="todo__tasks">
-                { lists && <Tasks lists={lists[0]} removeTaskItem={removeTaskItem}/>}
+                { lists && activeItem && <Tasks lists={activeItem} removeTaskItem={removeTaskItem} onEditTitle={onEditTitle} onAddTask={onAddTask}/>}
             </div>
         </div>
     );
