@@ -4,7 +4,6 @@ import classNames from 'classnames'
 import './List.scss'
 import Badge from "../Badge/Badge";
 import removeIcon from './../../assets/img/remove.svg'
-import axios from "axios";
 
 
 

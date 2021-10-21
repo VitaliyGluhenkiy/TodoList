@@ -5,6 +5,7 @@ import AddButtonList from "./components/AddButtonList/AddButtonList";
 
 import Tasks from "./components/Tasks/Tasks";
 import * as axios from 'axios';
+import {Route, useHistory, useLocation} from "react-router";
 
 function App() {
 
@@ -12,6 +13,20 @@ function App() {
     const [colors, setColors] = useState(null)
     const [activeItem, setActiveItem] = useState(null)
 
+    useEffect(() => {
+        axios
+            .get('http://localhost:3001/lists?_expand=color&_embed=tasks')
+            .then(({data}) => {
+                setLists(data)
+            });
+        axios.get('http://localhost:3001/colors').then(({data}) => {
+            setColors(data)
+        })
+    },[])
+
+    const location = useLocation()
+    const history = useHistory()
+    
 
     const onAddList = obj => {
         const newList = [...lists, obj]
@@ -44,15 +59,17 @@ function App() {
     }
 
 
-
     useEffect(() => {
-        axios.get('http://localhost:3001/lists?_expand=color&_embed=tasks').then(({data}) => {
-            setLists(data)
-        });
-        axios.get('http://localhost:3001/colors').then(({data}) => {
-            setColors(data)
-        })
-    },[])
+        const listId = location.pathname.split('lists/')[1]
+        if(lists) {
+            const list = lists.find(list => list.id === Number(listId))
+            setActiveItem(list)
+        }
+
+    }, [lists, location.pathname])
+
+
+
 
     const onEditTitle = (id , newTitle) => {
         const newNameTitle = lists.map(item => {
@@ -64,11 +81,14 @@ function App() {
         setLists(newNameTitle)
     }
 
-
     return (
         <div className="todo">
             <div className="todo__sidebar">
-                <List items={[
+                <List
+                    onClickItem = { list => {
+                        history.push(`/`)
+                    }}
+                    items={[
                     {
                         icon: <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                    xmlns="http://www.w3.org/2000/svg">
@@ -86,15 +106,27 @@ function App() {
                     isRemovable
                     removeListItem={removeListItem}
                     onClickItem = { item => {
-                        setActiveItem(item)
+                        history.push(`/lists/${item.id}`)
                     }}
                     activeItem = {activeItem}
-
                 />
                 <AddButtonList  onAdd={onAddList} colors={colors}/>
             </div>
             <div className="todo__tasks">
-                { lists && activeItem && <Tasks lists={activeItem} removeTaskItem={removeTaskItem} onEditTitle={onEditTitle} onAddTask={onAddTask}/>}
+                <Route exact path="/">
+                    {
+                        lists && lists.map(list => (
+                            <Tasks
+                                key={list.id}
+                                list={list}
+                                onAddTask={onAddTask}
+                                onEditTitle={onEditTitle}
+                                withoutEmpty
+                            />
+                        ))
+                    }
+                </Route>
+                { lists && activeItem && <Tasks list={activeItem} removeTaskItem={removeTaskItem} onEditTitle={onEditTitle} onAddTask={onAddTask}/>}
             </div>
         </div>
     );

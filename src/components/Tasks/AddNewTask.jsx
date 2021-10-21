@@ -5,7 +5,7 @@ import addSvg from './../../assets/img/add.svg'
 import axios from "axios";
 
 
-const AddNewTask = ({lists , onAddTask}) => {
+const AddNewTask = ({list , onAddTask}) => {
     const [visibleInputForm , setVisibleInputForm] = useState(false)
     const [inputValue , setInputValue] = useState('')
     const [isLoading, setIsLoading] = useState(false)
@@ -14,18 +14,18 @@ const AddNewTask = ({lists , onAddTask}) => {
         setVisibleInputForm(!visibleInputForm)
         setInputValue('')
     }
-    console.log(lists)
+    // console.log(list)
 
     const addTask = () => {
         const obj = {
-            listId: lists.id,
+            listId: list.id,
             text: inputValue,
             completed: false
         }
         setIsLoading(true)
         axios.post('http://localhost:3001/tasks' , obj)
             .then(({data}) => {
-                onAddTask(lists.id , data)
+                onAddTask(list.id , data)
                 toggleFormVisible()
             })
             .catch(() => {

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 
 import './Tasks.scss'
 import penSvg from './../../assets/img/edit.svg'
@@ -9,28 +9,28 @@ import AddNewTask from "./AddNewTask";
 
 
 
-const Tasks = ({lists , removeTaskItem , onAddTask , onEditTitle }) => {
+const Tasks = ({list , removeTaskItem , onAddTask , onEditTitle , withoutEmpty }) => {
 
     // debugger
 
-    const [inputValue, setInputValue] = useState('')
-
-
-    const handleClick = () => {
-        axios.post('http://localhost:3001/tasks/' , { listId: 2,  text: inputValue , completed: false})
-            .then(({data}) => {
-                const tasksObj = {...data }
-                onAddTask(tasksObj)
-            })
-    }
+    // const [inputValue, setInputValue] = useState('')
+    //
+    //
+    // const handleClick = () => {
+    //     axios.post('http://localhost:3001/tasks/' , { listId: 2,  text: inputValue , completed: false})
+    //         .then(({data}) => {
+    //             const tasksObj = {...data }
+    //             onAddTask(tasksObj)
+    //         })
+    // }
 
     const editNameTitle = () => {
-        const newTitle = window.prompt('Введите новое название задачи' , lists.name)
+        const newTitle = window.prompt('Введите новое название задачи' , list.name)
         if(newTitle) {
-            onEditTitle(lists.id , newTitle)
+            onEditTitle(list.id , newTitle)
             axios
                 .patch
-                    ('http://localhost:3001/lists/' + lists.id , {name: newTitle})
+                    ('http://localhost:3001/lists/' + list.id , {name: newTitle})
                 .catch( () => {
                     alert('Запрос не удался')
                 })
@@ -38,23 +38,14 @@ const Tasks = ({lists , removeTaskItem , onAddTask , onEditTitle }) => {
     }
     return (
             <div className='tasks'>
-                <h1 className='tasks__title'>
-                    {lists.name }
+                <h1 style={{color: list.color.hex}} className='tasks__title'>
+                    {list.name }
                     <img onClick={editNameTitle} className="penSvg" src={penSvg} alt="EDIT"/>
 
                 </h1>
-                <div>
-                    <input
-                        value={inputValue}
-                        onChange={e => setInputValue(e.target.value)}
-                        type="text"
-                        placeholder=""
-                    />
-                    <button onClick={handleClick}>Добавить задачу</button>
-                </div>
-                <div>{!lists.tasks.length && <h2>Задачи отсутствуют</h2> }</div>
+                <div>{!withoutEmpty &&  !list.tasks.length && <h2>Задачи отсутствуют</h2> }</div>
                     {
-                        lists.tasks.map(task => (
+                        list.tasks.map(task => (
                             <div key={task.id} className="tasks__items">
                                 <div className="checkbox">
                                     <input id={`task-${task.id}`} type="checkbox"/>
@@ -73,7 +64,7 @@ const Tasks = ({lists , removeTaskItem , onAddTask , onEditTitle }) => {
                         ))
 
                     }
-                    <AddNewTask lists={lists} onAddTask={onAddTask}/>
+                    <AddNewTask list={list} onAddTask={onAddTask}/>
 
 
             </div>

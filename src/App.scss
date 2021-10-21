@@ -34,8 +34,7 @@ body {
 
   }
   &__tasks {
-    display: flex;
-    flex: 1;
+    overflow: auto;
   }
 
 }

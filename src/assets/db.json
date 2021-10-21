@@ -2,7 +2,7 @@
   "lists": [
     {
       "id": 2,
-      "name": "AHh",
+      "name": "React",
       "colorId": 1
     },
     {
@@ -53,22 +53,10 @@
       "completed": false
     },
     {
-      "listId": 3,
-      "text": "112312",
-      "completed": false,
-      "id": 13
-    },
-    {
-      "listId": 4,
-      "text": "123",
-      "completed": false,
-      "id": 15
-    },
-    {
       "listId": 2,
-      "text": "12123",
+      "text": "4343",
       "completed": false,
-      "id": 16
+      "id": 11
     }
   ],
   "colors": [
