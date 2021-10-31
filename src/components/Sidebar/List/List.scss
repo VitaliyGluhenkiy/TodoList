@@ -6,6 +6,10 @@
     }
   }
   margin-bottom: 20px;
+  a {
+    color: #08001a;
+    text-decoration: none;
+  }
     li{
       display: flex;
       align-items: center;
@@ -41,4 +45,5 @@
         opacity: 0.5;
       }
     }
+
   }

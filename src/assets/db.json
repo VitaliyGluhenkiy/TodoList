@@ -3,22 +3,20 @@
     {
       "id": 2,
       "name": "React",
-      "colorId": 1
+      "colorId": 1,
+      "active": false
     },
     {
       "id": 3,
       "name": "Фильмы и сериалы",
-      "colorId": 5
+      "colorId": 5,
+      "active": false
     },
     {
       "id": 4,
       "name": "Книги",
-      "colorId": 3
-    },
-    {
-      "name": "sdfsd",
-      "colorId": 6,
-      "id": 5
+      "colorId": 3,
+      "active": false
     }
   ],
   "tasks": [
@@ -51,12 +49,6 @@
       "listId": "2",
       "text": "test text",
       "completed": false
-    },
-    {
-      "listId": 2,
-      "text": "4343",
-      "completed": false,
-      "id": 11
     }
   ],
   "colors": [
