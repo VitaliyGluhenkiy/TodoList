@@ -2,21 +2,80 @@
   "lists": [
     {
       "id": 2,
-      "name": "React",
+      "name": "React123",
       "colorId": 1,
-      "active": false
+      "active": false,
+      "tasks": [
+        {
+          "id": 2,
+          "listId": 2,
+          "text": "Изучить паттерны проектирования",
+          "completed": false,
+          "order": 3
+        },
+        {
+          "id": 3,
+          "listId": 2,
+          "text": "ReactJS Hooks (useState, useReducer, useEffect и т.д.)",
+          "completed": true,
+          "order": 2
+        },
+        {
+          "id": 4,
+          "listId": 2,
+          "text": "Redux (redux-observable, redux-saga)",
+          "completed": false,
+          "order": 1
+        },
+        {
+          "listId": 2,
+          "text": "76765",
+          "completed": false,
+          "id": 18
+        }
+      ],
+      "color": {
+        "id": 1,
+        "hex": "#C9D1D3",
+        "name": "grey"
+      }
     },
     {
       "id": 3,
       "name": "Фильмы и сериалы",
       "colorId": 5,
-      "active": false
+      "active": false,
+      "tasks": {
+        "id": 4,
+        "listId": 2,
+        "text": "Redux (redux-observable, redux-saga)",
+        "completed": false,
+        "order": 1
+      },
+      "color": {
+        "id": 5,
+        "hex": "#B6E6BD",
+        "name": "lime"
+      }
     },
     {
       "id": 4,
       "name": "Книги",
       "colorId": 3,
-      "active": false
+      "active": false,
+      "tasks": [
+        {
+          "listId": 4,
+          "text": "Купить 1984!",
+          "completed": true,
+          "id": 10
+        }
+      ],
+      "color": {
+        "id": 3,
+        "hex": "#64C4ED",
+        "name": "blue"
+      }
     }
   ],
   "tasks": [
@@ -24,31 +83,43 @@
       "id": 2,
       "listId": 2,
       "text": "Изучить паттерны проектирования",
-      "completed": false
-    },
-    {
-      "listId": 4,
-      "text": "Купить 1984!",
-      "completed": true,
-      "id": 10
+      "completed": false,
+      "order": 3
     },
     {
       "id": 3,
       "listId": 2,
       "text": "ReactJS Hooks (useState, useReducer, useEffect и т.д.)",
-      "completed": true
+      "completed": true,
+      "order": 2
     },
     {
       "id": 4,
       "listId": 2,
       "text": "Redux (redux-observable, redux-saga)",
-      "completed": false
+      "completed": false,
+      "order": 1
     },
     {
       "id": 5,
       "listId": "2",
       "text": "test text",
-      "completed": false
+      "completed": false,
+      "order": 4
+    },
+    {
+      "listId": 4,
+      "text": "123sdf",
+      "completed": false,
+      "id": 19,
+      "order": 5
+    },
+    {
+      "listId": 4,
+      "text": "458745",
+      "completed": false,
+      "id": 20,
+      "order": 6
     }
   ],
   "colors": [

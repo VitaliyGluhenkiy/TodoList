@@ -1,19 +1,29 @@
-export const setLists = (lists) => ({
+export const setLists = lists => ({
     type: 'SET_LISTS',
-    data: lists,
+    data: lists
 })
 
-export const setColors = (colors) => ({
+export const setColors = colors => ({
     type: 'SET_COLORS',
-    colors,
+    colors
 })
 
-export const addListItem = (listItem) => ({
+export const addListItem = listItem => ({
     type: 'ADD_LIST_ITEM',
-    listItem,
+    listItem
 })
 
-export const deleteListItem = (newList) => ({
+export const deleteListItem = newList => ({
     type: 'DELETE_LIST_ITEM',
-    data: newList,
+    data: newList
+})
+
+export const setToggleItem = payload => ({
+    type: 'SET_TOGGLE_ITEM',
+    payload
+})
+export const onEditTitle = (id, newTitle) => ({
+    type: 'ON_EDIT_TITLE',
+    payload: id,
+    newTitle
 })

@@ -1,50 +1,47 @@
 import React, { useEffect, useState } from 'react'
-import './App.scss'
+import { Route } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { setLists } from './redux/actions/listActions'
+
 import axios from 'axios'
 
-import AddButtonList from './components/Sidebar/AddButtonList/AddButtonList'
+import './App.scss'
 
+import AddButtonList from './components/Sidebar/AddButtonList/AddButtonList'
 import Tasks from './components/Tasks/Tasks'
-import { Route } from 'react-router-dom'
 import AllTasks from './components/Tasks/AllTasks'
 import List from './components/Sidebar/List/List'
 import ListAllTasks from './components/Sidebar/ListAllTasks/ListAllTasks'
 
 function App() {
-    const [lists, setLists] = useState(null)
     const [activeItem, setActiveItem] = useState(null)
+
+    const { lists } = useSelector(({ listReducer }) => ({
+        lists: listReducer.lists
+    }))
+    console.log(lists)
+
+    const dispatch = useDispatch()
 
     useEffect(() => {
         axios
             .get('http://localhost:3001/lists?_expand=color&_embed=tasks')
             .then(({ data }) => {
-                setLists(data)
+                dispatch(setLists(data))
             })
-
     }, [])
-
-
-
-    const onEditTitle = (id, newTitle) => {
-        const newNameTitle = lists.map((item) => {
-            if (item.id === id) {
-                item.name = newTitle
-            }
-            return item
-        })
-        setLists(newNameTitle)
-    }
 
     return (
         <div className="todo">
             <div className="todo__sidebar">
-                <ListAllTasks/>
+                <ListAllTasks />
                 <Route path="">
                     <List
-                      onClickItem={item => {
-                          setActiveItem(item)
-                      }}
-                      activeItem={activeItem}
+                        onClickItem={item => {
+                            setActiveItem(item)
+                        }}
+                        activeItem={activeItem}
                     />
                 </Route>
                 <AddButtonList />
@@ -52,10 +49,12 @@ function App() {
 
             <div className="todo__tasks">
                 <Route exact path="/all">
-                    <AllTasks/>
+                    {lists &&
+                        lists.map(list => (
+                            <AllTasks key={list.id} listItem={list} />
+                        ))}
                 </Route>
-                { lists && activeItem &&
-                <Tasks list={activeItem}  onEditTitle={onEditTitle} />}
+                {lists && activeItem && <Tasks list={activeItem} />}
             </div>
         </div>
     )

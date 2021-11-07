@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import axios from 'axios'
+
+import { addNewTaskItem } from '../../redux/actions/taskActions'
+
 import './Tasks.scss'
 
-import axios from 'axios'
 import addSvg from '../../assets/img/add.svg'
-import { addNewTaskItem } from '../../redux/actions/taskActions'
-import { useDispatch } from 'react-redux'
 
 const AddNewTask = ({ list }) => {
     const [visibleInputForm, setVisibleInputForm] = useState(false)
@@ -15,7 +17,6 @@ const AddNewTask = ({ list }) => {
         setVisibleInputForm(!visibleInputForm)
         setInputValue('')
     }
-    // console.log(list)
 
     const dispatch = useDispatch()
 
@@ -23,12 +24,12 @@ const AddNewTask = ({ list }) => {
         const obj = {
             listId: list.id,
             text: inputValue,
-            completed: false,
+            completed: false
         }
         setIsLoading(true)
-        axios.post('http://localhost:3001/tasks', obj)
+        axios
+            .post('http://localhost:3001/tasks', obj)
             .then(({ data }) => {
-                // debugger
                 dispatch(addNewTaskItem(data))
                 toggleFormVisible()
             })
@@ -46,27 +47,32 @@ const AddNewTask = ({ list }) => {
                 <div onClick={toggleFormVisible} className="tasks__form-new">
                     <img src={addSvg} alt="Add svg" />
                     <span>Добавить задачу</span>
-              </div>
+                </div>
             ) : (
                 <div className="tasks__form-input">
                     <input
-                    type="text"
+                        type="text"
                         value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
+                        onChange={e => setInputValue(e.target.value)}
                     />
                     <div className="buttons">
-
-                        <button onClick={addTask} disabled={isLoading} className="button">{isLoading ? 'Добаляеться' : 'Добавить задачу' }</button>
+                        <button
+                            onClick={addTask}
+                            disabled={isLoading}
+                            className="button"
+                        >
+                            {isLoading ? 'Добаляеться' : 'Добавить задачу'}
+                        </button>
                         <button
                             onClick={toggleFormVisible}
                             className="cancelButton"
-                      >
-                          Cancel
-                      </button>
-                  </div>
-              </div>
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </div>
             )}
-      </div>
+        </div>
     )
 }
 export default AddNewTask

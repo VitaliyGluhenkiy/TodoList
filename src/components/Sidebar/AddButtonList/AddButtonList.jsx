@@ -16,7 +16,7 @@ const AddButtonList = () => {
     const dispatch = useDispatch()
 
     const { colors } = useSelector(({ listReducer }) => ({
-        colors: listReducer.colors,
+        colors: listReducer.colors
     }))
 
     useEffect(() => {
@@ -24,12 +24,6 @@ const AddButtonList = () => {
             dispatch(setColors(data))
         })
     }, [])
-
-    // useEffect(() => {
-    //     if (Array.isArray(colors)) {
-    //         selectColor(colors[0].id)
-    //     }
-    // }, [colors])
 
     const onClose = () => {
         setVisiblePopup(false)
@@ -43,12 +37,17 @@ const AddButtonList = () => {
             return
         }
         setIsLoading(true)
-        axios.post('http://localhost:3001/lists', { name: inputValue, colorId: selectedColor })
+        axios
+            .post('http://localhost:3001/lists', {
+                name: inputValue,
+                colorId: selectedColor
+            })
             .then(({ data }) => {
-                const color = colors.filter((c) => c.id === selectedColor)[0].name
+                const color = colors.filter(c => c.id === selectedColor)[0].name
                 const listItem = { ...data, color: { name: color } }
                 dispatch(addListItem(listItem))
-            }).finally(() => {
+            })
+            .finally(() => {
                 setIsLoading(false)
                 onClose()
             })
@@ -56,7 +55,10 @@ const AddButtonList = () => {
 
     return (
         <div className="add-list">
-            <div className="add-list__openPopup" onClick={() => setVisiblePopup(true)}>
+            <div
+                className="add-list__openPopup"
+                onClick={() => setVisiblePopup(true)}
+            >
                 <p>Добавить список</p>
                 <svg
                     width="12"
@@ -66,7 +68,13 @@ const AddButtonList = () => {
                     xmlns="http://www.w3.org/2000/svg"
                     className="list__icon-plus"
                 >
-                    <path d="M8 1V15" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <path
+                        d="M8 1V15"
+                        stroke="black"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
                     <path
                         d="M1 8H15"
                         stroke="black"
@@ -81,7 +89,7 @@ const AddButtonList = () => {
                     <div className="popup">
                         <input
                             value={inputValue}
-                            onChange={(e) => setInputValue(e.target.value)}
+                            onChange={e => setInputValue(e.target.value)}
                             className="field"
                             type="text"
                             placeholder="Название списка"
@@ -90,19 +98,20 @@ const AddButtonList = () => {
                             <img onClick={onClose} src={closeSvg} alt="" />
                         </div>
                         <div className="colors">
-                            {
-                                colors.map((item) => (
-                                    <Badge
-                                        onClick={() => selectColor(item.id)}
-                                        key={item.id}
-                                        color={item.name}
-                                        className={selectedColor === item.id && 'active'}
-                                    />
-                                ))
-                            }
+                            {colors.map(item => (
+                                <Badge
+                                    onClick={() => selectColor(item.id)}
+                                    key={item.id}
+                                    color={item.name}
+                                    className={
+                                        selectedColor === item.id && 'active'
+                                    }
+                                />
+                            ))}
                         </div>
-                        <button onClick={addList} className="button">{isLoading ? 'Добавляем...' : 'Добавить'}</button>
-
+                        <button onClick={addList} className="button">
+                            {isLoading ? 'Добавляем...' : 'Добавить'}
+                        </button>
                     </div>
                 </div>
             )}
