@@ -11,16 +11,16 @@ import penSvg from '../../assets/img/edit.svg'
 import removeIcon from '../../assets/img/remove.svg'
 import AddNewTask from './AddNewTask'
 
-const Tasks = ({ list, withoutEmpty }) => {
+const Tasks = ({ list }) => {
     const dispatch = useDispatch()
 
     const { tasks } = useSelector(({ taskReducer }) => ({
         tasks: taskReducer.tasks
     }))
 
-    console.log(tasks)
-
     const newTasks = tasks.filter(task => task.listId === list.id)
+
+    console.log(newTasks)
 
     const editNameTitle = () => {
         const newTitle = window.prompt(
@@ -52,6 +52,9 @@ const Tasks = ({ list, withoutEmpty }) => {
         })
     }, [])
 
+    const onChangeCheckbox = e => {
+        console.log(e.target.checked)
+    }
     return (
         <div className="tasks">
             <div className="tasks__title-block">
@@ -69,15 +72,15 @@ const Tasks = ({ list, withoutEmpty }) => {
                 />
             </div>
 
-            <div>
-                {!withoutEmpty && !list.tasks.length && (
-                    <h2>Задачи отсутствуют</h2>
-                )}
-            </div>
+            <div>{!list.tasks.length && <h2>Задачи отсутствуют</h2>}</div>
             {newTasks.map(task => (
                 <div key={task.id} className="tasks__items">
                     <div className="checkbox">
-                        <input id={`task-${task.id}`} type="checkbox" />
+                        <input
+                            onChange={onChangeCheckbox}
+                            id={`task-${task.id}`}
+                            type="checkbox"
+                        />
                         <label htmlFor={`task-${task.id}`}>
                             <svg
                                 width="11"

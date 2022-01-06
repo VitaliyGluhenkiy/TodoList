@@ -2,10 +2,10 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './ListAllTasks.scss'
 
-const ListAllTasks = () => {
+const ListAllTasks = ({ onClickItem }) => {
     return (
         <div className="listTitle">
-            <Link to="/all">
+            <Link to="/" onClick={onClickItem ? () => onClickItem() : null}>
                 <svg
                     width="18"
                     height="18"

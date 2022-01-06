@@ -27,7 +27,7 @@ const taskReducer = (state = initialState, action) => {
         case SET_TASKS_LIST_DG:
             return {
                 ...state,
-                lists: action.newTasksDG
+                tasks: action.newTasksDG
             }
         default:
             return state

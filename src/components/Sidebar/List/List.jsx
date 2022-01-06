@@ -2,22 +2,26 @@ import React from 'react'
 import classNames from 'classnames'
 
 import './List.scss'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import * as axios from 'axios'
 import Badge from '../../Badge/Badge'
 import removeIcon from '../../../assets/img/remove.svg'
 import { deleteListItem } from '../../../redux/actions/listActions'
-import { Link } from 'react-router-dom'
 
-const List = ({ activeItem, onClickItem }) => {
-    const { lists } = useSelector(({ listReducer }) => ({
-        lists: listReducer.lists
-    }))
-
+const List = ({ activeItem, onClickItem, lists }) => {
     const dispatch = useDispatch()
 
-    const removeListItem = id => {
-        axios.delete(`http://localhost:3001/lists/${id}`).then(({ data }) => {
+    function delay(ms) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve()
+            }, ms)
+        })
+    }
+
+    async function removeListItem(id) {
+        await delay(3000)
+        await axios.delete(`http://localhost:3001/lists/${id}`).then(() => {
             const newList = lists.filter(list => list.id !== id)
             dispatch(deleteListItem(newList))
         })
@@ -25,27 +29,34 @@ const List = ({ activeItem, onClickItem }) => {
 
     return (
         <ul className="list">
-            {lists.map((item, id) => (
-                <Link key={id} to={'/lists/' + item.id}>
+            {lists.map(list => (
+                <div key={list.id}>
                     <li
-                        className={classNames(item.className, {
-                            active: activeItem && activeItem.id === item.id
+                        className={classNames(list.className, {
+                            active: list.active
+                                ? list.active
+                                : activeItem && activeItem.id === list.id
                         })}
-                        onClick={onClickItem ? () => onClickItem(item) : null}
+                        onClick={onClickItem ? () => onClickItem(list) : null}
                     >
-                        <i>{item.color && <Badge color={item.color.name} />}</i>
+                        <i>
+                            {list.icon ? (
+                                list.icon
+                            ) : (
+                                <Badge color={list.color.name} />
+                            )}
+                        </i>
                         <span>
-                            {item.name}
-                            {item.tasks && `(${item.tasks.length})`}
+                            {list.name}
+                            {list.tasks && `(${list.tasks.length})`}
                         </span>
                         <img
-                            onClick={() => removeListItem(item.id)}
+                            onClick={() => removeListItem(list.id)}
                             src={removeIcon}
                             alt="Remove icon"
                         />
-                        {/*<div>{item.active ? 'true' : 'false'}</div>*/}
                     </li>
-                </Link>
+                </div>
             ))}
         </ul>
     )

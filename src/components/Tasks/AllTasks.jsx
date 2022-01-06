@@ -1,17 +1,29 @@
 import React, { useEffect, useState } from 'react'
 
 import './Tasks.scss'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import * as axios from 'axios'
-import { setTasksListDG } from '../../redux/actions/taskActions'
+import { setTasks, setTasksListDG } from '../../redux/actions/taskActions'
 
-const AllTasks = ({ listItem }) => {
+const AllTasks = () => {
+    const { tasks } = useSelector(({ taskReducer }) => ({
+        tasks: taskReducer.tasks
+    }))
+
+    console.log(tasks)
+
+    useEffect(() => {
+        axios.get('http://localhost:3001/tasks').then(({ data }) => {
+            dispatch(setTasks(data))
+        })
+    }, [])
+
     const [currentTask, setCurrentTask] = useState()
 
     const dispatch = useDispatch()
 
-    function dragStartHandler(e, list) {
-        setCurrentTask(list)
+    function dragStartHandler(e, task) {
+        setCurrentTask(task)
     }
 
     function dragEndHandler(e) {
@@ -23,16 +35,16 @@ const AllTasks = ({ listItem }) => {
         e.target.style.border = '2px solid black'
     }
 
-    function dropHandler(e, list) {
+    function dropHandler(e, task) {
         e.preventDefault()
         dispatch(
             setTasksListDG(
-                listItem.tasks.map(t => {
-                    if (t.id === list.id) {
+                tasks.map(t => {
+                    if (t.id === task.id) {
                         return { ...t, order: currentTask.order }
                     }
                     if (t.id === currentTask.id) {
-                        return { ...t, order: list.order }
+                        return { ...t, order: task.order }
                     }
                     return t
                 })
@@ -50,20 +62,11 @@ const AllTasks = ({ listItem }) => {
 
     return (
         <div className="tasks">
-            <div className="tasks__title-block">
-                <h1
-                    style={{ color: listItem.color.hex }}
-                    className="tasks__title"
-                >
-                    {listItem.name}
-                </h1>
-            </div>
-
-            {listItem.tasks.sort(sortTasks).map(list => (
-                <div key={list.id} className="tasks__items">
+            {tasks.sort(sortTasks).map(task => (
+                <div key={task.id} className="tasks__items">
                     <div className="checkbox">
-                        <input id={`task-${list.id}`} type="checkbox" />
-                        <label htmlFor={`task-${list.id}`}>
+                        <input id={`task-${task.id}`} type="checkbox" />
+                        <label htmlFor={`task-${task.id}`}>
                             <svg
                                 width="11"
                                 height="8"
@@ -81,14 +84,14 @@ const AllTasks = ({ listItem }) => {
                             </svg>
                         </label>
                         <p
-                            onDragStart={e => dragStartHandler(e, list)}
+                            onDragStart={e => dragStartHandler(e, task)}
                             onDragLeave={e => dragEndHandler(e)}
                             onDragEnd={e => dragEndHandler(e)}
                             onDragOver={e => dragOverHandler(e)}
-                            onDrop={e => dropHandler(e, list)}
+                            onDrop={e => dropHandler(e, task)}
                             draggable={true}
                         >
-                            {list.text}
+                            {task.text}
                         </p>
                     </div>
                 </div>

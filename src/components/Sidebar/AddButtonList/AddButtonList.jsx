@@ -40,7 +40,8 @@ const AddButtonList = () => {
         axios
             .post('http://localhost:3001/lists', {
                 name: inputValue,
-                colorId: selectedColor
+                colorId: selectedColor || '1',
+                tasks: []
             })
             .then(({ data }) => {
                 const color = colors.filter(c => c.id === selectedColor)[0].name
