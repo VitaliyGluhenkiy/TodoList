@@ -3,10 +3,9 @@ import { useDispatch } from 'react-redux'
 import axios from 'axios'
 
 import { addNewTaskItem } from '../../redux/actions/taskActions'
+import addSvg from '../../assets/img/add.svg'
 
 import './Tasks.scss'
-
-import addSvg from '../../assets/img/add.svg'
 
 const AddNewTask = ({ list }) => {
     const [visibleInputForm, setVisibleInputForm] = useState(false)

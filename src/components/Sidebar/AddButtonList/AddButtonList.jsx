@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 
 import './AddButtonList.scss'
-import { useDispatch, useSelector } from 'react-redux'
 import closeSvg from '../../../assets/img/close.svg'
 import Badge from '../../Badge/Badge'
 import { addListItem, setColors } from '../../../redux/actions/listActions'

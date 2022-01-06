@@ -18,10 +18,6 @@ export const deleteListItem = newList => ({
     data: newList
 })
 
-export const setToggleItem = payload => ({
-    type: 'SET_TOGGLE_ITEM',
-    payload
-})
 export const onEditTitle = (id, newTitle) => ({
     type: 'ON_EDIT_TITLE',
     payload: id,

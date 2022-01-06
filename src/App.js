@@ -31,7 +31,6 @@ function App() {
         axios
             .get('http://localhost:3001/lists?_expand=color&_embed=tasks')
             .then(({ data }) => {
-                // console.log(data)
                 dispatch(setLists(data))
             })
     }, [tasks])

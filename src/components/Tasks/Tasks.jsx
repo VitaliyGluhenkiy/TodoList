@@ -2,14 +2,14 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import * as axios from 'axios'
 
-import './Tasks.scss'
-
 import { removeTaskItemAC, setTasks } from '../../redux/actions/taskActions'
 import { onEditTitle } from '../../redux/actions/listActions'
+import AddNewTask from './AddNewTask'
 
 import penSvg from '../../assets/img/edit.svg'
 import removeIcon from '../../assets/img/remove.svg'
-import AddNewTask from './AddNewTask'
+
+import './Tasks.scss'
 
 const Tasks = ({ list }) => {
     const dispatch = useDispatch()

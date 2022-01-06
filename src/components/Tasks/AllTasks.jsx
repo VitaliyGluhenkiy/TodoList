@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
-import './Tasks.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import * as axios from 'axios'
 import { setTasks, setTasksListDG } from '../../redux/actions/taskActions'
+
+import './Tasks.scss'
 
 const AllTasks = () => {
     const { tasks } = useSelector(({ taskReducer }) => ({

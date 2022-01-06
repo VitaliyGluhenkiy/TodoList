@@ -1,12 +1,13 @@
 import React from 'react'
-import classNames from 'classnames'
-
-import './List.scss'
 import { useDispatch } from 'react-redux'
 import * as axios from 'axios'
+import classNames from 'classnames'
+
 import Badge from '../../Badge/Badge'
 import removeIcon from '../../../assets/img/remove.svg'
 import { deleteListItem } from '../../../redux/actions/listActions'
+
+import './List.scss'
 
 const List = ({ activeItem, onClickItem, lists }) => {
     const dispatch = useDispatch()

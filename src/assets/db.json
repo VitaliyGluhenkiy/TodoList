@@ -78,6 +78,18 @@
       "text": "Пробежать 10 км",
       "completed": false,
       "id": 10
+    },
+    {
+      "listId": 2,
+      "text": "123",
+      "completed": false,
+      "id": 11
+    },
+    {
+      "listId": 5,
+      "text": "3 тренеровки в неделю.",
+      "completed": false,
+      "id": 12
     }
   ],
   "colors": [
